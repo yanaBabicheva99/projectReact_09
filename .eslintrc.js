@@ -8,11 +8,11 @@ module.exports = {
         "standard"
     ],
     parserOptions: {
+        ecmaVersion: 12,
+        sourceType: "module",
         ecmaFeatures: {
-            jsx: true
-        },
-        ecmaVersion: "latest",
-        sourceType: "module"
+            legacyDecorators: true
+        }
     },
     plugins: [
         "react"
