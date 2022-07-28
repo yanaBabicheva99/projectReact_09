@@ -36,7 +36,7 @@ const Users = ({users, ...rest}) => {
     };
 
     const filteredUsers = selectedProf
-        ? users.filter(user => user.profession._id === selectedProf._id)
+        ? users.filter(user => JSON.stringify(user.profession) === JSON.stringify(selectedProf))
         : users;
 
     const count = filteredUsers.length;
