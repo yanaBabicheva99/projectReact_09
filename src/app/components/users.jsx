@@ -13,6 +13,8 @@ const Users = ({users, ...rest}) => {
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
 
+    console.log(selectedProf);
+
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
@@ -34,7 +36,7 @@ const Users = ({users, ...rest}) => {
     };
 
     const filteredUsers = selectedProf
-        ? users.filter(user => user.profession === selectedProf)
+        ? users.filter(user => user.profession._id === selectedProf._id)
         : users;
 
     const count = filteredUsers.length;
