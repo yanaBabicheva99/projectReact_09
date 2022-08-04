@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import TableHeader from './tableHeader';
 import TableBody from './tableBody';
 import BookMark from './bookmark';
-import Qualitie from './qualitie';
+import QualitiesList from './qualitiesList';
+import Table from './table';
 const UsersTable = ({users, onSort, selectedSort, onToggleBookMark, onDelete, ...rest}) => {
     const columns = {
         name: {path: 'name', name: 'Имя'},
         qualities: {
             name: 'Качества',
             component: (user) => (
-                user.qualities.map(qual => (
-                    <Qualitie key={qual._id} {...qual} />
-                ))
+                <QualitiesList qualities={user.qualities}/>
             )
         },
         profession: {path: 'profession.name', name: 'Профессия'},
@@ -40,10 +39,10 @@ const UsersTable = ({users, onSort, selectedSort, onToggleBookMark, onDelete, ..
         }
     };
     return (
-        <table className="table">
+        <Table onSort={onSort} selectedSort={selectedSort} columns={columns} data={users}>
             <TableHeader {...{selectedSort, onSort, columns}}/>
             <TableBody {...{data: users, columns}} />
-        </table>
+        </Table>
     );
 };
 UsersTable.propTypes = {
