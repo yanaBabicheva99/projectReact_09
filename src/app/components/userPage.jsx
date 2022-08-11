@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import api from '../api/index';
 import QualitiesList from './qualitiesList';
+import {useHistory} from 'react-router-dom';
 
-const UserPage = ({id, history}) => {
+const UserPage = ({id}) => {
+    const history = useHistory();
     const [userById, setUserById] = useState();
 
     useEffect(() => {
@@ -31,7 +33,6 @@ const UserPage = ({id, history}) => {
     );
 };
 UserPage.propTypes = {
-    id: PropTypes.string.isRequired,
-    history: PropTypes.object.isRequired
+    id: PropTypes.string.isRequired
 };
 export default UserPage;

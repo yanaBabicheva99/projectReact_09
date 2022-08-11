@@ -1,17 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import UserPage from './userPage';
 import Users from './users';
-const UsersList = ({match, history}) => {
-    const userId = match.params.userId;
+import {useParams} from 'react-router-dom';
+
+const UsersList = () => {
+    const params = useParams();
+    const {userId} = params;
     return (
         <>
-            {userId ? <UserPage id={userId} history={history}/> : <Users />}
+            {userId ? <UserPage id={userId} /> : <Users />}
         </>
     );
-};
-UsersList.propTypes = {
-    match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
 };
 export default UsersList;
