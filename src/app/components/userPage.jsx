@@ -25,7 +25,7 @@ const UserPage = ({id}) => {
                         <QualitiesList qualities={userById.qualities}/>
                         <p>completedMeetings: {userById.completedMeetings}</p>
                         <h1>Rate: {userById.rate}</h1>
-                        <button onClick={() => handelSave()}>Все пользователи</button>
+                        <button onClick={handelSave}>Все пользователи</button>
                     </div>
                     : <h1>Loading...</h1>
             }

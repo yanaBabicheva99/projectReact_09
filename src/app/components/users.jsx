@@ -7,6 +7,7 @@ import SearchStatus from './searchStatus';
 import UsersTable from './usersTable';
 import _ from 'lodash';
 import Loader from '../Loader/loader';
+import TextField from './textField';
 const Users = () => {
     const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
@@ -15,10 +16,15 @@ const Users = () => {
     const [selectedSort, setSelectedSort] = useState({path: 'name', order: 'asc'});
 
     const [users, setUsers] = useState();
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         api.users.fetchAll().then(data => setUsers(data));
     }, []);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [search]);
 
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
@@ -44,6 +50,7 @@ const Users = () => {
     }, [selectedProf]);
 
     const handleProfessionSelect = (item) => {
+        setSearch('');
         setSelectedProf(item);
     };
 
@@ -58,14 +65,20 @@ const Users = () => {
     const handleSort = (item) => {
         setSelectedSort(item);
     };
-
+    const handelSearch = ({target}) => {
+        setSelectedProf();
+        setSearch(target.value);
+    };
     if (users) {
+        const searchedUsers = search && users.filter(user => user.name.toLowerCase().includes(search.toLowerCase()));
+
         const filteredUsers = selectedProf
             ? users.filter(user => JSON.stringify(user.profession) === JSON.stringify(selectedProf))
             : users;
 
-        const count = filteredUsers.length;
-        const sortedUsers = _.orderBy(filteredUsers, [selectedSort.path], [selectedSort.order]);
+        const count = search ? searchedUsers.length : filteredUsers.length;
+        const sortedUsers = _.orderBy(searchedUsers.length ? searchedUsers : filteredUsers, [selectedSort.path], [selectedSort.order]);
+
         const userCrop = paginate(sortedUsers, currentPage, pageSize);
 
         return (
@@ -84,6 +97,13 @@ const Users = () => {
                 )}
                 <div style={{margin: '10px'}}>
                     <SearchStatus length={count}/>
+                    <TextField
+                        name={search}
+                        value={search}
+                        onChang={handelSearch}
+                        placeholder='Search...'
+                        customStyle={true}
+                    />
                     {count > 0 && (
                         <UsersTable
                             users={userCrop}
@@ -111,3 +131,4 @@ const Users = () => {
     </div>;
 };
 export default Users;
+// searchedUsers || filteredUsers
