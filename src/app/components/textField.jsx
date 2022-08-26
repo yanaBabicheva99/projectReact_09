@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import style from './textFieldStyle/textField.module.css';
 const TextField = ({label, type, value, name, error, onChang, placeholder, customStyle}) => {
+    const [showPassword, setShowPassword] = useState(false);
     const getInputClasses = () => {
         return 'form-control' + (error ? ' is-invalid' : '');
+    };
+    const toggleShowPassword = () => {
+        setShowPassword(prevState => !prevState);
     };
     return (
         <>
@@ -24,16 +28,26 @@ const TextField = ({label, type, value, name, error, onChang, placeholder, custo
                 </div>
                 : <div className='mb-4'>
                     <label htmlFor={name}>{label}</label>
-                    <input
-                        name={name}
-                        type={type}
-                        value={value}
-                        placeholder={placeholder}
-                        id={name}
-                        onChange={(e) => onChang(e)}
-                        className={getInputClasses()}
-                    />
-                    {error && <div className='invalid-feedback'>{error}</div>}
+                    <div className="input-group has-validation">
+                        <input
+                            name={name}
+                            type={showPassword ? 'text' : type}
+                            value={value}
+                            placeholder={placeholder}
+                            id={name}
+                            onChange={(e) => onChang(e)}
+                            className={getInputClasses()}
+                        />
+                        {type === 'password' && (
+                            <button
+                                onClick={toggleShowPassword}
+                                className='btn btn-outline-secondary'
+                            >
+                                <i className={'bi bi-eye' + (showPassword ? '-slash' : '')}></i>
+                            </button>
+                        )}
+                        {error && <div className='invalid-feedback'>{error}</div>}
+                    </div>
                 </div>}
 
         </>
