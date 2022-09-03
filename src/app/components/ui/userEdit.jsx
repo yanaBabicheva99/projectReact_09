@@ -8,24 +8,33 @@ import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import {useHistory} from 'react-router-dom';
 
-const UserEdit = ({user, id}) => {
+const UserEdit = ({id, edit}) => {
+    // useEffect(() => {
+    //     setDate();
+    // }, [edit]);
+
+    useEffect(() => {
+        api.users.getById(id).then(data => {
+            setData({
+                name: data.name,
+                email: data.email,
+                profession: data.profession._id,
+                sex: data.sex,
+                qualities: (data.qualities).map(qual => (
+                    {
+                        label: qual.name,
+                        value: qual._id
+                    }
+                ))
+            });
+        });
+    }, [edit]);
+
     const history = useHistory();
     const [professions, setProfessions] = useState({});
     const [qualities, setQualities] = useState({});
     const [errors, setErrors] = useState({});
-    const [data, setData] = useState(
-        {
-            name: user.name,
-            email: user.email,
-            profession: user.profession._id,
-            sex: user.sex,
-            qualities: (user.qualities).map(qual => (
-                {
-                    label: qual.name,
-                    value: qual._id
-                }
-            ))
-        });
+    const [data, setData] = useState();
 
     const handelChange = (target) => {
         if (target) {
@@ -175,7 +184,7 @@ const UserEdit = ({user, id}) => {
 };
 
 UserEdit.propTypes = {
-    user: PropTypes.object.isRequired,
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    edit: PropTypes.string
 };
 export default UserEdit;
