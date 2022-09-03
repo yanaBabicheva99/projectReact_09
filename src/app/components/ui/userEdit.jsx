@@ -8,7 +8,7 @@ import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import {useHistory} from 'react-router-dom';
 
-const UserEdit = ({id, edit}) => {
+const UserEdit = ({id}) => {
     // useEffect(() => {
     //     setDate();
     // }, [edit]);
@@ -28,7 +28,7 @@ const UserEdit = ({id, edit}) => {
                 ))
             });
         });
-    }, [edit]);
+    }, []);
 
     const history = useHistory();
     const [professions, setProfessions] = useState({});
@@ -184,7 +184,6 @@ const UserEdit = ({id, edit}) => {
 };
 
 UserEdit.propTypes = {
-    id: PropTypes.string.isRequired,
-    edit: PropTypes.string
+    id: PropTypes.string.isRequired
 };
 export default UserEdit;
