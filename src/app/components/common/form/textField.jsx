@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import style from './textFieldStyle/textField.module.css';
-const TextField = ({label, type, value, name, error, onChang, placeholder, customStyle}) => {
+const TextField = ({label, type, value, name, error, onChange, placeholder, customStyle}) => {
     const [showPassword, setShowPassword] = useState(false);
+    const handelChange = ({target}) => {
+        onChange({name: target.name, value: target.value});
+    };
     const getInputClasses = () => {
         return 'form-control' + (error ? ' is-invalid' : '');
     };
@@ -19,7 +22,7 @@ const TextField = ({label, type, value, name, error, onChang, placeholder, custo
                         value={value}
                         placeholder={placeholder}
                         id={name}
-                        onChange={onChang}
+                        onChange={handelChange}
                         className={style.input}
                     />
                 </div>
@@ -32,7 +35,7 @@ const TextField = ({label, type, value, name, error, onChang, placeholder, custo
                             value={value}
                             placeholder={placeholder}
                             id={name}
-                            onChange={onChang}
+                            onChange={handelChange}
                             className={getInputClasses()}
                         />
                         {type === 'password' && (
@@ -55,7 +58,7 @@ TextField.propTypes = {
     type: PropTypes.string,
     value: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    onChang: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     error: PropTypes.string,
     placeholder: PropTypes.string,
     customStyle: PropTypes.bool

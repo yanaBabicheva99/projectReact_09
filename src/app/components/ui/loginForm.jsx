@@ -1,19 +1,48 @@
 import React, {useState, useEffect} from 'react';
-import {validator} from '../utils/validator';
-import TextField from './textField';
+import {validator} from '../../utils/validator';
+import TextField from '../common/form/textField';
+import CheckBoxField from '../common/form/checkBoxField';
+// import * as yup from 'yup';
 
 const LoginForm = () => {
-    const [data, setData] = useState({email: '', password: ''});
+    const [data, setData] = useState({email: '', password: '', stayOn: false});
     const [errors, setErrors] = useState({});
 
-    const handelChange = ({target}) => {
-        setData(prevSate => ({...prevSate, [target.name]: target.value}));
+    const handelChange = (target) => {
+        if (target) {
+            setData(prevSate => ({...prevSate, [target.name]: target.value}));
+        }
     };
 
     useEffect(() => {
         validate();
     }, [data]);
 
+    // const validateScheme = yup.object().shape({
+    //     password: yup
+    //         .string()
+    //         .required('Пароль обязателен для заполнения')
+    //         .matches(
+    //             /(?=.*[A-Z])/,
+    //             'Пароль должен содержать хотя бы одну заглавную букву'
+    //         )
+    //         .matches(
+    //             /(?=.*[0-9])/,
+    //             'Пароль должен содержать хотя бы одно число'
+    //         )
+    //         .matches(
+    //             /(?=.*[!@#$%^&*])/,
+    //             'Пароль должен содержать один из специальных символов !@#$%^&*'
+    //         )
+    //         .matches(
+    //             /(?=.{8,})/,
+    //             'Пароль долже состоять минимум из 8 символов'
+    //         ),
+    //     email: yup
+    //         .string()
+    //         .required('Электронная почта обязательна для заполнения')
+    //         .email('Email введен не корректно')
+    // });
     const validatorConfig = {
         email: {
             isRequired: {
@@ -42,6 +71,10 @@ const LoginForm = () => {
 
     const validate = () => {
         const errors = validator(data, validatorConfig);
+        // validateScheme
+        //     .validate(data)
+        //     .then(() => setErrors({}))
+        //     .catch((err) => setErrors({[err.path]: err.message}));
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -57,31 +90,31 @@ const LoginForm = () => {
         console.log(data);
     };
     return (
-        <div className='container mt-5'>
-            <div className="row">
-                <div className="col-md-6 offset-md-3 shadow p-4">
-                    <h3 className='mb-4'>Login</h3>
-                    <form onSubmit={handelSubmit}>
-                        <TextField
-                            onChang={handelChange}
-                            name='email'
-                            label='Электронная почта'
-                            value={data.email}
-                            error={errors.email}
-                        />
-                        <TextField
-                            onChang={handelChange}
-                            name='password'
-                            label='Пароль'
-                            type='password'
-                            value={data.password}
-                            error={errors.password}
-                        />
-                        <button disabled={!isValid} className='btn btn-primary w-100 mx-auto'>Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <form onSubmit={handelSubmit}>
+            <TextField
+                onChange={handelChange}
+                name='email'
+                label='Электронная почта'
+                value={data.email}
+                error={errors.email}
+            />
+            <TextField
+                onChange={handelChange}
+                name='password'
+                label='Пароль'
+                type='password'
+                value={data.password}
+                error={errors.password}
+            />
+            <CheckBoxField
+                value={data.stayOn}
+                onChange={handelChange}
+                name='stayOn'
+            >
+                Оставаться в системе
+            </CheckBoxField>
+            <button disabled={!isValid} className='btn btn-primary w-100 mx-auto mt-4'>Submit</button>
+        </form>
     );
 };
 export default LoginForm;

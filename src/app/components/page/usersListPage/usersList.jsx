@@ -8,7 +8,7 @@ import UsersTable from '../../ui/usersTable';
 import _ from 'lodash';
 import Loader from '../../../Loader/loader';
 import TextField from '../../common/form/textField';
-const UsersList = () => {
+const UsersListPage = () => {
     const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
@@ -65,7 +65,7 @@ const UsersList = () => {
     const handleSort = (item) => {
         setSelectedSort(item);
     };
-    const handelSearch = ({target}) => {
+    const handelSearch = (target) => {
         setSelectedProf();
         setSearch(target.value);
     };
@@ -98,9 +98,9 @@ const UsersList = () => {
                 <div style={{margin: '10px'}}>
                     <SearchStatus length={count}/>
                     <TextField
-                        name={search}
+                        name='search'
                         value={search}
-                        onChang={handelSearch}
+                        onChange={handelSearch}
                         placeholder='Search...'
                         customStyle={true}
                     />
@@ -130,5 +130,5 @@ const UsersList = () => {
         <Loader />
     </div>;
 };
-export default UsersList;
+export default UsersListPage;
 // searchedUsers || filteredUsers
