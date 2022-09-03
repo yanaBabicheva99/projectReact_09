@@ -13,16 +13,13 @@ const TextField = ({label, type, value, name, error, onChang, placeholder, custo
         <>
             {customStyle
                 ? <div className={style.wrapper}>
-                    {/* <svg className={style.icon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21"> */}
-                    {/*    <path d="M21 19.59l-5-5A9 9 0 1014.6 16l5 5zM4 13.94a7 7 0 119.89 0 7 7 0 01-9.89 0z"></path> */}
-                    {/* </svg> */}
                     <input
                         name={name}
                         type={type}
                         value={value}
                         placeholder={placeholder}
                         id={name}
-                        onChange={(e) => onChang(e)}
+                        onChange={onChang}
                         className={style.input}
                     />
                 </div>
@@ -35,7 +32,7 @@ const TextField = ({label, type, value, name, error, onChang, placeholder, custo
                             value={value}
                             placeholder={placeholder}
                             id={name}
-                            onChange={(e) => onChang(e)}
+                            onChange={onChang}
                             className={getInputClasses()}
                         />
                         {type === 'password' && (
