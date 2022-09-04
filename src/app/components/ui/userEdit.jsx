@@ -128,8 +128,8 @@ const UserEdit = ({id}) => {
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
                     {
-                        (Object.keys(qualities).length !== 0 && typeof qualities === 'object') ||
-                        (Object.keys(professions).length !== 0 && typeof professions === 'object')
+                        (Object.keys(professions).length !== 0 &&
+                            Object.keys(qualities).length !== 0)
                             ? (
                                 <form onSubmit={handelSubmit}>
                                     <TextField
