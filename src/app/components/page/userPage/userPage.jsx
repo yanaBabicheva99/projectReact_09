@@ -4,18 +4,18 @@ import api from '../../../api';
 import QualitiesList from '../../ui/qualities/qualitiesList';
 import {Link} from 'react-router-dom';
 
-const UserPage = ({id, edit}) => {
+const UserPage = ({id}) => {
     const [userById, setUserById] = useState();
 
-    useEffect(() => {
-        setUserById();
-    }, [edit]);
+    // useEffect(() => {
+    //     setUserById();
+    // }, []);
 
     useEffect(() => {
         api.users.getById(id).then(data => {
             setUserById(data);
         });
-    }, [edit]);
+    }, []);
 
     return (
         <div style={{marginLeft: '10px'}}>
@@ -36,7 +36,6 @@ const UserPage = ({id, edit}) => {
     );
 };
 UserPage.propTypes = {
-    id: PropTypes.string.isRequired,
-    edit: PropTypes.string
+    id: PropTypes.string.isRequired
 };
 export default UserPage;

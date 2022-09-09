@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import api from '../../api';
-import {validator} from '../../utils/validator';
-import TextField from '../common/form/textField';
-import SelectField from '../common/form/selectField';
-import RadioField from '../common/form/radioField';
-import MultiSelectField from '../common/form/multiSelectField';
+import api from '../../../api';
+import {validator} from '../../../utils/validator';
+import TextField from '../../common/form/textField';
+import SelectField from '../../common/form/selectField';
+import RadioField from '../../common/form/radioField';
+import MultiSelectField from '../../common/form/multiSelectField';
 import {useHistory} from 'react-router-dom';
 
 const UserEdit = ({id}) => {
