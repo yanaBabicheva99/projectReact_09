@@ -6,22 +6,20 @@ import UserCard from '../../ui/userCard/userCard';
 
 const UserPage = ({id}) => {
     const [userById, setUserById] = useState();
-    const [users, setUsers] = useState();
     useEffect(() => {
         api.users.getById(id).then(data => {
             setUserById(data);
         });
-        api.users.fetchAll().then(data => setUsers(data.map(user => ({value: user._id, label: user.name}))));
     }, []);
 
     return (
 
         <div className="container">
-            {userById && users
+            {userById
                 ? <div className="row gutters-sm">
                     <UserCard id={id} userById={userById} />
                     <div className="col-md-8">
-                        <CommentsList users={users} id={id} />
+                        <CommentsList id={id} />
                     </div>
                 </div>
                 : <h1>Loading...</h1>
