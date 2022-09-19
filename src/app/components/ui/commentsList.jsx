@@ -5,9 +5,6 @@ import api from '../../api';
 import Comment from './comment';
 
 const CommentsList = ({id, users}) => {
-    useEffect(() => {
-        console.log('work');
-    });
     const [data, setData] = useState({userId: '', content: ''});
     const [comment, setComment] = useState([]);
     useEffect(() => {

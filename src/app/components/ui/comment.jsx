@@ -1,68 +1,36 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const Comment = ({comment, users, remove}) => {
-    useEffect(() => {
-        console.log('yes');
-    });
+    comment = [...comment].sort((a, b) => Number(b.created_at) - Number(a.created_at));
     const getName = (id) => {
-        console.log('+');
         const user = users.find(user => user.value === id);
         return user.label;
     };
-    // const getTime = (time) => {
-    //     console.log(time);
-    // };
-    // console.log(time);
-    // const dataOld = new Date(Number(time));
-    // const dataNew = new Date();
-    // console.log('old', dataOld);
-    // console.log('new', dataNew);
-    //
-    // const yearOld = dataOld.getFullYear();
-    // const monthOld = dataOld.getMonth();
-    // const dateOld = dataOld.getDate();
-    // const hoursOld = dataOld.getHours();
-    // const minutesOld = dataOld.getMinutes();
-    // const secondsOld = dataOld.getSeconds();
-    //
-    // const yearNew = dataNew.getFullYear();
-    // const monthNew = dataNew.getMonth();
-    // // const dateNew = dataNew.getDate();
-    // const hoursNew = dataNew.getHours();
-    // const minutesNew = dataNew.getMinutes();
-    // const secondsNew = dataNew.getSeconds();
-    //
-    // const differenceYear = yearNew - yearOld;
-    // const differenceMonth = monthNew - monthOld;
-    // // const differenceDate = dateNew - dateOld;
-    // const differenceHours = hoursNew - hoursOld;
-    // const differenceMinutes = minutesNew - minutesOld;
-    // const differenceSeconds = Math.ceil(secondsNew - secondsOld);
-    // if (differenceYear) {
-    //     return (dateOld > 10 ? '' : '0' + dateOld) + '.' +
-    //         (monthOld + 1 > 10 ? '' : '0' + monthOld) +
-    //         '.' + yearOld;
-    // }
-    // if (differenceMonth) {
-    //     return dataOld + '.' + monthOld;
-    // }
-    // if (differenceHours) {
-    //     return hoursOld + '.' + minutesOld;
-    // }
-    // if (differenceMinutes) {
-    //     if (differenceMinutes > 10) {
-    //         return '30 минут назад';
-    //     } else if (differenceMinutes > 5) {
-    //         return '10 минут назад';
-    //     } else if (differenceMinutes > 1) {
-    //         return '5 минут назад';
-    //     }
-    // }
-    // if (differenceSeconds > 0 || differenceSeconds < 0) {
-    //     console.log('--');
-    //     return '1 минуту назад';
-    // }
+    const getTime = (time) => {
+        const date = new Date(Number(time));
+        const dateNow = new Date();
+        const yearDif = dateNow.getFullYear() - date.getFullYear();
+        if (yearDif === 0) {
+            const dayDif = dateNow.getDay() - date.getDay();
+            if (dayDif === 0) {
+                const hourDif = dateNow.getHours() - date.getHours();
+                if (hourDif === 0) {
+                    const minutesDif = dateNow.getMinutes() - date.getMinutes();
+                    if (minutesDif >= 0 && minutesDif < 5) return '1 минуту назад';
+                    if (minutesDif >= 5 && minutesDif < 10) return '5 минут назад';
+                    if (minutesDif >= 10 && minutesDif < 30) {
+                        return '30 минут назад';
+                    }
+                    return `${date.getHours()}:${date.getMinutes()}`;
+                }
+            }
+            return `${date.getDay()} ${date.toLocaleString('default', {
+                month: 'long'
+            })}`;
+        }
+        return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate();
+    };
 
     return (
         <div className="card mb-3">
@@ -104,7 +72,7 @@ const Comment = ({comment, users, remove}) => {
                                                 <p className="mb-1">
                                                     {getName(com.userId) + ' '}
                                                     <span className="small">
-                                                        {/* - {getTime(com.created_at)} */}
+                                                         - {getTime(com.created_at)}
                                                     </span>
                                                 </p>
                                                 <button
