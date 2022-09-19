@@ -6,7 +6,8 @@ import TextField from '../../common/form/textField';
 import SelectField from '../../common/form/selectField';
 import RadioField from '../../common/form/radioField';
 import MultiSelectField from '../../common/form/multiSelectField';
-import {Link, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
+import BackButton from '../../common/table/backButton';
 
 const UserEdit = ({id}) => {
     // useEffect(() => {
@@ -125,7 +126,8 @@ const UserEdit = ({id}) => {
     };
     return (
         <div className='container mt-5'>
-            <Link to={`/users/${id}`}><button className="btn btn-primary">Назад</button></Link>
+            {/* <Link to={`/users/${id}`}><button className="btn btn-primary">Назад</button></Link> */}
+            <BackButton />
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
                     {

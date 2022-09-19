@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import api from '../../../api';
-import CommentsList from '../../ui/commentsList';
+import Comments from '../../ui/comments';
 import UserCard from '../../ui/userCard/userCard';
+import QualitiesCard from '../../ui/userCard/qualitiesCard';
+import CardMeetings from '../../ui/userCard/cardMeetings';
 
 const UserPage = ({id}) => {
     const [userById, setUserById] = useState();
@@ -17,9 +19,13 @@ const UserPage = ({id}) => {
         <div className="container">
             {userById
                 ? <div className="row gutters-sm">
-                    <UserCard id={id} userById={userById} />
+                    <div className="col-md-4 mb-3">
+                        <UserCard id={id} userById={userById} />
+                        <QualitiesCard data={userById.qualities} />
+                        <CardMeetings value={userById.completedMeetings} />
+                    </div>
                     <div className="col-md-8">
-                        <CommentsList id={id} />
+                        <Comments id={id} />
                     </div>
                 </div>
                 : <h1>Loading...</h1>

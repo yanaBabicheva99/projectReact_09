@@ -1,70 +1,87 @@
 import React, {useEffect, useState} from 'react';
-import SelectField from '../common/form/selectField';
 import api from '../../api';
+import {getTime} from '../../utils/visitTime';
 import PropTypes from 'prop-types';
 
-const FormComment = ({handleAddComment}) => {
-    const [data, setData] = useState({userId: '', content: ''});
+const Comment = ({comment, handleRemove}) => {
     const [users, setUsers] = useState([]);
+
     useEffect(() => {
         api.users.fetchAll().then(data => setUsers(data.map(user => ({value: user._id, label: user.name}))));
     }, []);
-    const handleChange = (item) => {
-        setData(prevState => ({...prevState, [item.name]: item.value}));
-    };
 
-    const handleChangeArea = ({target}) => {
-        setData(prevState => ({...prevState, [target.name]: target.value}));
-    };
-
-    const handleSendData = () => {
-        handleAddComment(data);
-        setData({userId: '', content: ''});
+    const getName = (id) => {
+        const user = users.find(user => user.value === id);
+        return user.label;
     };
     return (
-        <div className="card mb-2">
-            <div
-                style={{display: 'flex', flexDirection: 'column'}}
-                className="card-body"
-            >
-                <div>
-                    <h2>New comment</h2>
-                    <SelectField
-                        defaultOption='Выбирите пользователя'
-                        value={data.userId}
-                        name='userId'
-                        options={users}
-                        onChange={handleChange}
-                    />
-                    <div className="mb-4">
-                        <label
-                            htmlFor="exampleFormControlTextarea1"
-                            className="form-label"
-                        >Сообщение</label>
-                        <textarea
-                            value={data.content}
-                            name='content'
-                            className="form-control"
-                            id="exampleFormControlTextarea1"
-                            rows="3"
-                            onChange={handleChangeArea}
-                        ></textarea>
+        <div
+            className="bg-light card-body mb-3"
+        >
+            <div className="row">
+                {users.length > 0
+                    ? <div className="col">
+                        <div className="d-flex flex-start">
+                            <img
+                                src={`https://avatars.dicebear.com/api/avataaars/${(
+                                    Math.random() + 1
+                                )
+                                    .toString(36)
+                                    .substring(7)}.svg`}
+                                className="rounded-circle shadow-1-strong me-3"
+                                alt="avatar"
+                                width="65"
+                                height="65"
+                            />
+                            <div
+                                className="
+                                  flex-grow-1 flex-shrink-1
+                                   "
+                            >
+                                <div className="mb-4">
+                                    <div
+                                        className="
+                                         d-flex
+                                         justify-content-between
+                                         align-items-center
+                                         "
+                                    >
+                                        <p className="mb-1">
+                                            {getName(comment.userId) + ' '}
+                                            <span className="small">
+                                             - {getTime(comment.created_at)}
+                                            </span>
+                                        </p>
+                                        <button
+                                            className="
+                                             btn btn-sm
+                                             text-primary
+                                             d-flex
+                                             align-items-center
+                                              "
+                                            onClick={() => handleRemove(comment._id)}
+                                        >
+                                            <i
+                                                className="
+                                                bi bi-x-lg
+                                                "
+                                            ></i>
+                                        </button>
+                                    </div>
+                                    <p className="small mb-0">
+                                        {comment.content}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <button
-                    className="btn btn-primary"
-                    style={{alignSelf: 'flex-end'}}
-                    onClick={handleSendData}
-                >
-                    Опубликовать
-                </button>
+                    : <p>loading...</p>}
             </div>
         </div>
     );
 };
-FormComment.propTypes = {
-    handleAddComment: PropTypes.func.isRequired
+Comment.propTypes = {
+    comment: PropTypes.object,
+    handleRemove: PropTypes.func.isRequired
 };
-
-export default FormComment;
+export default Comment;

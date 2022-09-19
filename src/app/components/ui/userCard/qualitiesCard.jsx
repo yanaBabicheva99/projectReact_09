@@ -1,7 +1,7 @@
 import React from 'react';
 import QualitiesList from '../qualities';
 import PropTypes from 'prop-types';
-const QualitiesCard = ({qualities}) => {
+const QualitiesCard = ({data}) => {
     return (
         <div className="card mb-3">
             <div
@@ -17,13 +17,13 @@ const QualitiesCard = ({qualities}) => {
                     <span>Qualities</span>
                 </h5>
                 <p className="card-text">
-                    <QualitiesList qualities={qualities}/>
+                    <QualitiesList qualities={data}/>
                 </p>
             </div>
         </div>
     );
 };
 QualitiesCard.propTypes = {
-    qualities: PropTypes.array.isRequired
+    data: PropTypes.array.isRequired
 };
 export default QualitiesCard;
